@@ -168,10 +168,6 @@
     // Find the difference in horizontal position between the current and previous touches
     CGFloat xDiff = translation.x;
     
-    // Check that the indicator doesn't exit the bounds of the control
-    CGRect newSegmentIndicatorFrame = self.selectedItemIndicator.frame;
-    newSegmentIndicatorFrame.origin.x += xDiff;
-    
     self.selectedItemIndicator.center = CGPointMake(self.selectedItemIndicator.center.x + xDiff, self.selectedItemIndicator.center.y);
     
     [panGestureRecognizer setTranslation:CGPointMake(0, 0) inView:panGestureRecognizer.view.superview];
@@ -186,9 +182,19 @@
                     self.selectedItemIndex = index;
                     [self sendActionsForControlEvents:UIControlEventValueChanged];
                 }
-                [self moveSelectedSegmentIndicatorToSegmentAtIndex:index animated:YES];
-
+                [self moveSelectedSegmentIndicatorToSegmentAtIndex:self.selectedItemIndex animated:YES];
+                return;
             }
+        }
+        
+        if (self.selectedItemIndicator.center.x > self.bounds.size.width) {
+            self.selectedItemIndex = (self.items.count - 1);
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+            [self moveSelectedSegmentIndicatorToSegmentAtIndex:self.selectedItemIndex animated:YES];
+        } else if (self.selectedItemIndicator.center.x < 0) {
+            self.selectedItemIndex = 0;
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
+            [self moveSelectedSegmentIndicatorToSegmentAtIndex:self.selectedItemIndex animated:YES];
         }
     }
 }
@@ -214,9 +220,10 @@
         animationsBlock();
         return;
     }
+    
     CGFloat horizontalMovement = fabs(weakSelf.selectedItemIndicator.center.x) - fabs([weakSelf centerForIndicatorAtIndex:index].x);
     NSTimeInterval duration = self.animationDuration/CGRectGetWidth(self.bounds);
-    [UIView animateWithDuration:duration*horizontalMovement animations:animationsBlock];
+    [UIView animateWithDuration:fabs(duration*horizontalMovement) animations:animationsBlock];
 }
 
 #pragma mark - Properties
@@ -320,7 +327,8 @@
 {
     _selectedItemIndicatorImage = selectedItemIndicatorImage;
     self.selectedItemIndicator.image = _selectedItemIndicatorImage;
-    self.selectedItemIndicator.frame = CGRectMake(0, 0, _selectedItemIndicatorImage.size.width, _selectedItemIndicatorImage.size.height);
+    self.selectedItemIndicator.contentMode = UIViewContentModeCenter;
+    self.selectedItemIndicator.frame = CGRectMake(0, 0, _selectedItemIndicatorImage.size.width*1.5, _selectedItemIndicatorImage.size.height*1.5);
 }
 
 - (void)setSegmentImageTintColor:(UIColor *)segmentImageTintColor{
