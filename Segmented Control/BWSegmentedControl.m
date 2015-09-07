@@ -172,9 +172,7 @@
     CGRect newSegmentIndicatorFrame = self.selectedItemIndicator.frame;
     newSegmentIndicatorFrame.origin.x += xDiff;
     
-    if (CGRectContainsRect(CGRectInset(self.topRect, self.interItemSpacing, 0), newSegmentIndicatorFrame)) {
-        self.selectedItemIndicator.center = CGPointMake(self.selectedItemIndicator.center.x + xDiff, self.selectedItemIndicator.center.y);
-    }
+    self.selectedItemIndicator.center = CGPointMake(self.selectedItemIndicator.center.x + xDiff, self.selectedItemIndicator.center.y);
     
     [panGestureRecognizer setTranslation:CGPointMake(0, 0) inView:panGestureRecognizer.view.superview];
     
@@ -216,7 +214,9 @@
         animationsBlock();
         return;
     }
-    [UIView animateWithDuration:self.animationDuration animations:animationsBlock];
+    CGFloat horizontalMovement = fabs(weakSelf.selectedItemIndicator.center.x) - fabs([weakSelf centerForIndicatorAtIndex:index].x);
+    NSTimeInterval duration = self.animationDuration/CGRectGetWidth(self.bounds);
+    [UIView animateWithDuration:duration*horizontalMovement animations:animationsBlock];
 }
 
 #pragma mark - Properties
