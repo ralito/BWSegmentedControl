@@ -18,4 +18,5 @@
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UILabel     *titleLabel;
 @property (nonatomic, assign) CGFloat imageHeight;
+@property (nonatomic, retain) UIColor *titleLabelDefaultColor;
 @end

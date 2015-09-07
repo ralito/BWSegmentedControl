@@ -44,7 +44,7 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     [self.titleLabel sizeToFit];
-    self.titleLabel.center = CGPointMake(self.imageView.center.x, CGRectGetHeight(bounds) - CGRectGetHeight(self.titleLabel.frame));
+    self.titleLabel.center = CGPointMake(self.imageView.center.x, CGRectGetHeight(bounds) - CGRectGetHeight(self.titleLabel.frame)/2);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size{
