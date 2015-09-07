@@ -43,8 +43,8 @@
         self.interItemSpacing = 30;
         self.animationDuration = 0.5;
         
-        [self addSubview:self.selectedItemIndicator];
         self.items = items;
+        [self addSubview:self.selectedItemIndicator];
         
         UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
         [panGestureRecognizer setMinimumNumberOfTouches:1];

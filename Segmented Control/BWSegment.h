@@ -17,5 +17,5 @@
 @interface BWSegment : UIControl
 @property (nonatomic, readonly) UIImageView *imageView;
 @property (nonatomic, readonly) UILabel     *titleLabel;
-@property (nonatomic, readonly) CGFloat imageHeight;
+@property (nonatomic, assign) CGFloat imageHeight;
 @end

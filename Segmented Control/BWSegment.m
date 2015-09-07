@@ -24,8 +24,8 @@
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.adjustsFontSizeToFitWidth = YES;
         self.titleLabel.font = [UIFont fontWithName:@"helvetica" size:13.0];
+        self.imageHeight = 20;
         [self addSubview:self.imageView];
         [self addSubview:self.titleLabel];
         
@@ -37,20 +37,14 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     CGRect bounds = self.bounds;
-    self.imageView.frame = CGRectMake(CGRectGetMinX(bounds),
+    self.imageView.frame = CGRectMake((CGRectGetWidth(bounds) - self.imageHeight)/2,
                                       CGRectGetMinY(bounds),
-                                      CGRectGetWidth(bounds),
-                                      CGRectGetHeight(bounds)/1.5f);
+                                      self.imageHeight,
+                                      self.imageHeight);
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
-    if (self.imageHeight == 0) {
-        _imageHeight = self.imageView.frame.size.height;
-    }
-    
-    self.titleLabel.frame = CGRectMake(self.imageView.center.x - CGRectGetWidth(bounds)/4.0f,
-                                       CGRectGetHeight(self.imageView.frame),
-                                       CGRectGetWidth(bounds)/2,
-                                       CGRectGetHeight(bounds) - CGRectGetHeight(self.imageView.frame));
+    [self.titleLabel sizeToFit];
+    self.titleLabel.center = CGPointMake(self.imageView.center.x, CGRectGetHeight(bounds) - CGRectGetHeight(self.titleLabel.frame));
 }
 
 - (CGSize)sizeThatFits:(CGSize)size{
