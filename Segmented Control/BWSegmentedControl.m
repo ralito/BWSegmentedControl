@@ -223,7 +223,8 @@
     
     CGFloat horizontalMovement = fabs(weakSelf.selectedItemIndicator.center.x) - fabs([weakSelf centerForIndicatorAtIndex:index].x);
     NSTimeInterval duration = self.animationDuration/CGRectGetWidth(self.bounds);
-    [UIView animateWithDuration:fabs(duration*horizontalMovement) animations:animationsBlock];
+    
+    [UIView animateWithDuration:fabs(duration*horizontalMovement) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:animationsBlock completion:nil];
 }
 
 #pragma mark - Properties
