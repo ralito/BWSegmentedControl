@@ -26,6 +26,7 @@
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.font = [UIFont fontWithName:@"helvetica" size:13.0];
         self.imageHeight = 20;
+        self.titleLabelDefaultColor = [UIColor grayColor];
         [self addSubview:self.imageView];
         [self addSubview:self.titleLabel];
         

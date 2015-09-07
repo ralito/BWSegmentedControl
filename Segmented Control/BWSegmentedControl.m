@@ -307,7 +307,7 @@
     for (NSUInteger i = 0; i < [self.items count]; i++) {
         BWSegment *item = self.items[i];
         BOOL isSelectedItem = i == selectedItemIndex;
-        item.titleLabel.textColor = isSelectedItem ? item.imageView.tintColor : ;
+        item.titleLabel.textColor = isSelectedItem ? item.imageView.tintColor : item.titleLabelDefaultColor;
         item.selected = isSelectedItem ? YES : NO;
     }
     [self setNeedsDisplay];
