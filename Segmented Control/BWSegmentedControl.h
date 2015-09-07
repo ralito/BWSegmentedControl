@@ -58,6 +58,11 @@
 @property (nonatomic, strong) UIColor *selectedItemIndicatorColor;
 
 /**
+ Image for the indicator.
+ */
+@property (nonatomic, strong) UIImage *selectedItemIndicatorImage;
+
+/**
  Color of the rounded rect on the top part of the view. Default white.
  */
 @property (nonatomic, strong) UIColor *topColor;

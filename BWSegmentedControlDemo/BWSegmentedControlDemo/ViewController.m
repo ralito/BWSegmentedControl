@@ -35,6 +35,7 @@
     segmentedControl.topColor = [UIColor grayColor];
     segmentedControl.selectedItemIndicatorColor = [UIColor yellowColor];
     segmentedControl.segmentImageTintColor = [UIColor purpleColor];
+    segmentedControl.selectedItemIndicatorImage = [UIImage imageNamed:@"image-alt"];
     [segmentedControl setSelectedItemIndex:0 animated:YES];
     [segmentedControl addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:segmentedControl];
@@ -58,6 +59,7 @@
                                                                                               @"Note"]];
     segmentedControlCenter.topColor = [UIColor orangeColor];
     segmentedControlCenter.selectedItemIndicatorColor = [UIColor redColor];
+    segmentedControlCenter.selectedItemIndicatorImage = [UIImage imageNamed:@"image-alt"];
     segmentedControlCenter.segmentImageTintColor = [UIColor colorWithRed:0.000 green:0.502 blue:0.502 alpha:1.000];
     [segmentedControlCenter addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventValueChanged];
 

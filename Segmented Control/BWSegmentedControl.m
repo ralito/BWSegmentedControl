@@ -15,7 +15,7 @@
 
 @interface BWSegmentedControl()
 
-@property (nonatomic, strong) UIView *selectedItemIndicator;
+@property (nonatomic, strong) UIImageView *selectedItemIndicator;
 @property (nonatomic, readwrite) NSUInteger selectedItemIndex;
 @property (nonatomic, readonly) CGFloat itemWidth;
 @property (nonatomic, readonly) CGFloat upperViewHeight;
@@ -35,11 +35,10 @@
         self.backgroundColor = [UIColor clearColor];
         self.topColor = [UIColor whiteColor];
 
-        self.selectedItemIndicator = [[UIView alloc]initWithFrame:CGRectZero];
+        self.selectedItemIndicator = [UIImageView new];
         self.selectedItemIndicatorColor = [UIColor blueColor];
 
         self.selectedItemIndicator.clipsToBounds = YES;
-        self.selectedItemIndicator.backgroundColor = self.selectedItemIndicatorColor;
         self.interItemSpacing = 30;
         self.animationDuration = 0.5;
         
@@ -96,8 +95,9 @@
         UIControl *item = self.items[i];
         item.frame = [self frameForItemAtIndex:i];
     }
-    self.selectedItemIndicator.frame = [self frameForIndicatorAtIndex:self.selectedItemIndex];
-    self.selectedItemIndicator.layer.cornerRadius = self.selectedItemIndicatorCornerRadius;
+    
+    self.selectedItemIndicator.center = [self centerForIndicatorAtIndex:self.selectedItemIndex];
+    
     [self setSelectedItemIndex:self.selectedItemIndex animated:NO moveIndicator:NO];
 }
 
@@ -114,22 +114,19 @@
                       CGRectGetHeight(self.bounds));
 }
 
-- (CGRect)frameForIndicatorAtIndex: (NSUInteger)index
+- (CGPoint)centerForIndicatorAtIndex: (NSUInteger)index
 {
     CGRect itemRect = [self frameForItemAtIndex:index];
-    CGFloat itemCenter = itemRect.origin.x + [self itemWidth]/2;
-    CGFloat indicatorX = itemCenter - self.upperViewHeight/2;
+    CGFloat itemCenterX = itemRect.origin.x + [self itemWidth]/2;
     
-    return CGRectMake(indicatorX,
-                      itemRect.origin.y,
-                      self.upperViewHeight,
-                      self.upperViewHeight);
+    return CGPointMake(itemCenterX,
+                      CGRectGetHeight(self.topRect)/2);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
     CGFloat segmentWidth = [[self.items firstObject]sizeThatFits:size].width;
-    self.selectedItemIndicator.frame = [self frameForIndicatorAtIndex:self.selectedItemIndex];
+    self.selectedItemIndicator.center = [self centerForIndicatorAtIndex:self.selectedItemIndex];
     
     return CGSizeMake(segmentWidth * [self.items count] + self.interItemSpacing, 47);
 }
@@ -212,7 +209,7 @@
     __weak typeof(self)weakSelf = self;
     
     void (^animationsBlock)(void) = ^{
-        weakSelf.selectedItemIndicator.frame = [weakSelf frameForIndicatorAtIndex:index];
+        weakSelf.selectedItemIndicator.center = [weakSelf centerForIndicatorAtIndex:index];
         };
  
     if (!animated) {
@@ -317,6 +314,13 @@
 {
     _selectedItemIndicatorColor = selectedItemIndicatorColor;
     self.selectedItemIndicator.backgroundColor = _selectedItemIndicatorColor;
+}
+
+- (void)setSelectedItemIndicatorImage:(UIImage *)selectedItemIndicatorImage
+{
+    _selectedItemIndicatorImage = selectedItemIndicatorImage;
+    self.selectedItemIndicator.image = _selectedItemIndicatorImage;
+    self.selectedItemIndicator.frame = CGRectMake(0, 0, _selectedItemIndicatorImage.size.width, _selectedItemIndicatorImage.size.height);
 }
 
 - (void)setSegmentImageTintColor:(UIColor *)segmentImageTintColor{
