@@ -42,6 +42,12 @@
  */
 - (void)setSelectedItemIndex:(NSUInteger)selectedItemIndex animated: (BOOL) animated;
 
+/**
+ Deselect selected segment index
+ 
+ */
+- (void)deselectedSelectedItemAnimated: (BOOL) animated;
+
 // -----
 // @name Properties
 // -----
