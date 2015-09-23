@@ -156,7 +156,6 @@
                 [self setSelectedItemIndex:selectedItemIndex animated:YES];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
-
         }
     }
 }
@@ -212,7 +211,9 @@
 {
     __weak typeof(self)weakSelf = self;
     
+    self.selectedItemIndicator.hidden = NO;
     void (^animationsBlock)(void) = ^{
+        weakSelf.selectedItemIndicator.alpha = 1;
         weakSelf.selectedItemIndicator.center = [weakSelf centerForIndicatorAtIndex:index];
         };
  
@@ -291,6 +292,13 @@
 ///Public
 - (void)setSelectedItemIndex:(NSUInteger)selectedItemIndex animated: (BOOL) animated{
     [self setSelectedItemIndex:selectedItemIndex animated:animated moveIndicator:YES];
+}
+
+- (void)deselectedSelectedItemAnimated: (BOOL) animated{
+    self.selectedItemIndex = NSUIntegerMax;
+    self.selectedItemIndicator.alpha = 0;
+    self.selectedItemIndicator.hidden = YES;
+    [self setNeedsDisplay];
 }
 
 ///Private
