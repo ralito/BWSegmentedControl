@@ -116,6 +116,11 @@
 
 - (CGPoint)centerForIndicatorAtIndex: (NSUInteger)index
 {
+    
+    if (!self.isSegmentSelected) {
+        return CGPointZero;
+    }
+    
     CGRect itemRect = [self frameForItemAtIndex:index];
     CGFloat itemCenterX = itemRect.origin.x + [self itemWidth]/2;
     
@@ -144,6 +149,9 @@
 
 - (void)tapGestureRecognized: (UITapGestureRecognizer *)tapGestureRecognizer
 {
+    
+    self.isSegmentSelected = true;
+    
     CGPoint location = [tapGestureRecognizer locationInView:self];
     
     for (BWSegment *item in self.items) {
@@ -155,6 +163,9 @@
             if (selectedItemIndex != self.selectedItemIndex) {
                 [self setSelectedItemIndex:selectedItemIndex animated:YES];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
+            } else {
+                [self deselectSelectedItemAnimated:true];
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
         }
     }
@@ -162,6 +173,8 @@
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)panGestureRecognizer
 {
+    self.isSegmentSelected = true;
+    
     CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view.superview];
     
     // Find the difference in horizontal position between the current and previous touches
@@ -211,9 +224,8 @@
 {
     __weak typeof(self)weakSelf = self;
     
-    self.selectedItemIndicator.hidden = NO;
     void (^animationsBlock)(void) = ^{
-        weakSelf.selectedItemIndicator.alpha = 1;
+        weakSelf.selectedItemIndicator.alpha = weakSelf.isSegmentSelected ? 1 : 0;
         weakSelf.selectedItemIndicator.center = [weakSelf centerForIndicatorAtIndex:index];
         };
  
@@ -294,11 +306,9 @@
     [self setSelectedItemIndex:selectedItemIndex animated:animated moveIndicator:YES];
 }
 
-- (void)deselectedSelectedItemAnimated: (BOOL) animated{
-    self.selectedItemIndex = NSUIntegerMax;
-    self.selectedItemIndicator.alpha = 0;
-    self.selectedItemIndicator.hidden = YES;
-    [self setNeedsDisplay];
+- (void)deselectSelectedItemAnimated: (BOOL) animated{
+    self.isSegmentSelected = false;
+    [self setSelectedItemIndex:NSUIntegerMax animated:animated moveIndicator:YES];
 }
 
 ///Private
@@ -309,7 +319,6 @@
         [self moveSelectedSegmentIndicatorToSegmentAtIndex:self.selectedItemIndex animated:animated];
     }
     [self setNeedsDisplay];
-
 }
 
 ///Private

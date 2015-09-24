@@ -46,7 +46,7 @@
  Deselect selected segment index
  
  */
-- (void)deselectedSelectedItemAnimated: (BOOL) animated;
+- (void)deselectSelectedItemAnimated: (BOOL) animated;
 
 // -----
 // @name Properties
@@ -67,6 +67,11 @@
  Image for the indicator.
  */
 @property (nonatomic, strong) UIImage *selectedItemIndicatorImage;
+
+/**
+ Is segment selected
+ */
+@property (nonatomic) BOOL isSegmentSelected;
 
 /**
  Color of the rounded rect on the top part of the view. Default white.
