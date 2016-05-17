@@ -74,6 +74,11 @@
 @property (nonatomic) BOOL isSegmentSelected;
 
 /**
+ Is functionality to deselect segment enabled
+ */
+@property (nonatomic) BOOL isSegmentDeselectionEnabled;
+
+/**
  Color of the rounded rect on the top part of the view. Default white.
  */
 @property (nonatomic, strong) UIColor *topColor;

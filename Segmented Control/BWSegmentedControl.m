@@ -41,6 +41,7 @@
         self.selectedItemIndicator.clipsToBounds = YES;
         self.interItemSpacing = 30;
         self.animationDuration = 0.5;
+        self.isSegmentDeselectionEnabled = YES;
         
         self.items = items;
         [self addSubview:self.selectedItemIndicator];
@@ -163,7 +164,7 @@
             if (selectedItemIndex != self.selectedItemIndex) {
                 [self setSelectedItemIndex:selectedItemIndex animated:YES];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
-            } else {
+            } else if (self.isSegmentDeselectionEnabled) {
                 [self deselectSelectedItemAnimated:true];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
@@ -307,8 +308,10 @@
 }
 
 - (void)deselectSelectedItemAnimated: (BOOL) animated{
-    self.isSegmentSelected = false;
-    [self setSelectedItemIndex:NSUIntegerMax animated:animated moveIndicator:YES];
+    if (self.isSegmentDeselectionEnabled) {
+        self.isSegmentSelected = false;
+        [self setSelectedItemIndex:NSUIntegerMax animated:animated moveIndicator:YES];
+    }
 }
 
 ///Private
