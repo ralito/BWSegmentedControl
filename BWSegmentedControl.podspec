@@ -2,6 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "BWSegmentedControl"
+  s.authors      = { 'Mendy Krinsky' => 'mendyk3@gmail.com' }
   s.version      = "0.0.1"
   s.summary      = "A segmented control with a ball indicator "
   s.license      =  { :type => 'MIT' }
